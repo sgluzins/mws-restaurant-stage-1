@@ -1,6 +1,8 @@
 @charset "utf-8";
 /* CSS Document */
-
+html {
+  width: 100%;
+}
 body,td,th,p{
 	font-family: Arial, Helvetica, sans-serif;
 	font-size: 10pt;
@@ -41,7 +43,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 }
 #footer {
   background-color: #444;
-  color: #aaa;
+  color: #fff;
   font-size: 8pt;
   letter-spacing: 1px;
   padding: 25px;
@@ -60,7 +62,7 @@ nav h1 {
   padding: 35px;
 }
 nav h1 a {
-  color: #fff;
+  color: #ccc;
   font-size: 14pt;
   font-weight: 200;
   letter-spacing: 10px;
@@ -113,7 +115,7 @@ nav h1 a {
   display: flex;
 }
 .filter-options h2 {
-  color: white;
+  color: #fff;
   font-size: 1rem;
   font-weight: normal;
   line-height: 1;
@@ -130,6 +132,9 @@ nav h1 a {
   margin: 18px;
   padding: 0 15px;
   width: 200px;
+}
+select:focus {
+  outline: 3px solid #f18200;
 }
 
 /* ====================== Restaurant Listing ====================== */
@@ -175,7 +180,7 @@ nav h1 a {
   font-size: 11pt;
 }
 #restaurants-list li a {
-  background-color: orange;
+  background-color: #f18200;
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
@@ -185,6 +190,10 @@ nav h1 a {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+}
+#restaurants-list a:hover, 
+#restaurants-list a:focus {
+  background-color: #0275d8;
 }
 
 /* ====================== Restaurant Details ====================== */
@@ -296,7 +305,7 @@ nav h1 a {
 }
 #reviews-list li p:nth-child(2) {
   font-size: 1.2em;
-  color: #aaa;
+  color: #ccc;
   float: right;
   width: 165px;
   line-height: 30px;
@@ -307,7 +316,7 @@ nav h1 a {
   font-size: 1em;
   width: 70px;
   text-align: center;
-  background-color: orange;
+  background-color: #f18200;
   padding: 5px 10px;
 }
 #restaurant-hours td {
@@ -328,8 +337,11 @@ nav h1 a {
   .filter-options h2 {
     padding-top: 20px;
   }
+  #restaurants-list li {
+    width: 80%;
+  }
 }
-@media screen and (max-width: 700px){
+@media screen and (max-width: 722px){
   .inside #map-container, 
   #breadcrumb, 
   .inside #footer,
@@ -343,7 +355,7 @@ nav h1 a {
   #restaurant-container,
   #reviews-container  {
     padding: 20px;
-  }  
+  }
   .inside #map-container {
     margin-bottom: 100px;
   }

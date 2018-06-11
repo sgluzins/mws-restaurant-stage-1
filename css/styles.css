@@ -44,7 +44,7 @@ article, aside, canvas, details, figcaption, figure, footer, header, hgroup, men
 #footer {
   background-color: #444;
   color: #fff;
-  font-size: 8pt;
+  font-size: 12pt;
   letter-spacing: 1px;
   padding: 25px;
   text-align: center;
@@ -126,7 +126,7 @@ nav h1 a {
   background-color: white;
   border: 1px solid #fff;
   font-family: Arial,sans-serif;
-  font-size: 11pt;
+  font-size: 12pt;
   height: 40px;
   letter-spacing: 0;
   margin: 18px;
@@ -184,7 +184,7 @@ select:focus {
   border-bottom: 3px solid #eee;
   color: #fff;
   display: inline-block;
-  font-size: 10pt;
+  font-size: 12pt;
   margin: 20px 0 0;
   padding: 15px;
   text-align: center;

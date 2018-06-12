@@ -2,6 +2,16 @@
 ---
 #### _Three Stage Course Material Project - Restaurant Reviews_
 
+### Description
+The Udacity Mobi le Web Specialist Nanodegree involes a project split into three stages. This repository contains the code for the first project submission. Details from the original readme can be found below as well. 
+
+### Prerequisite
+Python: https://www.python.org/
+
+### Runtime Environment
+1. Start the Python server: `python -m SimpleHTTPServer 8000`
+2. Navigate to `http://localhost:8000` in a browser to view the webpages
+
 ## Project Overview: Stage 1
 
 For the **Restaurant Reviews** projects, you will incrementally convert a static webpage to a mobile-ready web application. In **Stage One**, you will take a static design that lacks accessibility and convert the design to be responsive on different sized displays and accessible for screen reader use. You will also add a service worker to begin the process of creating a seamless offline experience for your users.

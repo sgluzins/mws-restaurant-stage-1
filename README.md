@@ -34,5 +34,6 @@ In a terminal, check the version of Python you have: `python -V`. If you have Py
 
 Most of the code in this project has been written to the ES6 JavaScript specification for compatibility with modern web browsers and future proofing JavaScript code. As much as possible, try to maintain use of ES6 in any additional JavaScript you write. 
 
-
+### Project ADDENDUM:
+This repository is using leafletjs with Mapbox jpg tiles optimized with quality:70. You need to replace with token from Mapbox, and you can check the pricing: free and no credit card required.
 

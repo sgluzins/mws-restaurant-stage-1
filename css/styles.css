@@ -165,7 +165,7 @@ select:focus {
   min-height: 248px;
   min-width: 100%;
 }
-#restaurants-list li h1 {
+#restaurants-list li h2 {
   color: #f18200;
   font-family: Arial,sans-serif;
   font-size: 14pt;
@@ -280,7 +280,6 @@ select:focus {
   margin: 0 0 30px;
   overflow: hidden;
   position: relative;
-  /* width: 85%; */
   border-top-left-radius: 25px;
   border-bottom-right-radius: 25px;
 }

@@ -1,9 +1,11 @@
+self.importScripts('/node_modules/idb/lib/idb.js');
+
 const URLS = [
     '/',
     'index.html',
     'restaurant.html',
     'css/styles.css',
-    'data/restaurants.json',
+    'manifest.json',
     'img_sized/1-300_small.jpg',
     'img_sized/1-500_medium.jpg',
     'img_sized/1-1600_large.jpg',
@@ -36,19 +38,62 @@ const URLS = [
     'img_sized/10-1600_large.jpg',
     'js/dbhelper.js',
     'js/main.js',
-    'js/restaurant_info.js'
+    'js/restaurant_info.js',
 ];
+
+const dbPromise = idb.open('mws-restaurants', 1, function(upgradeDb){ 
+    var keyValStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+});
 
 self.addEventListener('install', event => {
  event.waitUntil(
    caches.open('mws-restaurant-sg').then(cache => {
-     return cache.addAll(URLS);
-   })
- );
+        return cache.addAll(URLS);
+    })
+ )
 });
 
 self.addEventListener('fetch', event => {
-    event.respondWith(caches.match(event.request).then(response => {
-        return response || fetch(event.request);
-    }));
+    const endpoint = new URL(event.request.url);
+
+    if(endpoint.port === '1337') {
+        if(navigator.onLine){
+            fetch(endpoint).then((response) => {
+                response.json().then(restaurants => {
+                    dbPromise.then(function(db) {
+                        var store = db.transaction('restaurants', 'readwrite').objectStore('restaurants');
+                        store.put({
+                            id: 0,
+                            data: restaurants
+                        });
+                        restaurants.forEach(
+                            restaurant => {
+                            store.put({
+                                id: restaurant.id,
+                                data: restaurant
+                            });
+                        });
+                        return store.complete;
+                    });
+                })
+            });
+        } else {
+            const splitURL = endpoint.pathname.split('/');
+            const urlLength = splitURL.length - 1;
+            const id = splitURL[urlLength] === 'restaurants' ? 0 : splitURL[urlLength];
+            event.respondWith(
+                dbPromise.then(db => {
+                    var tx = db.transaction('restaurants').objectStore('restaurants');
+                    return tx.get(id);
+                }).then(val => {
+                    return new Response(JSON.stringify(val.data));
+                })
+            );
+        }
+    } else {
+        event.respondWith(caches.match(event.request).then(response => {
+            return response || fetch(event.request);
+        }))
+    }
+
 });

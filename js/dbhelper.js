@@ -8,27 +8,18 @@ class DBHelper {
    * Change this to restaurants.json file location on your server.
    */
   static get DATABASE_URL() {
-    const port = 8000 // Change this to your server port
-    return `http://localhost:${port}/data/restaurants.json`;
+    const port = 1337 // Change this to your server port
+    return `http://localhost:${port}/restaurants`;
   }
 
   /**
    * Fetch all restaurants.
    */
   static fetchRestaurants(callback) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', DBHelper.DATABASE_URL);
-    xhr.onload = () => {
-      if (xhr.status === 200) { // Got a success response from server!
-        const json = JSON.parse(xhr.responseText);
-        const restaurants = json.restaurants;
-        callback(null, restaurants);
-      } else { // Oops!. Got an error from server.
-        const error = (`Request failed. Returned status of ${xhr.status}`);
-        callback(error, null);
-      }
-    };
-    xhr.send();
+    fetch(DBHelper.DATABASE_URL).then(response => {
+      response.json().then(restaurants => {
+        callback(null, restaurants)})
+    }).catch(e => callback(`Request failed: ${e}`, null));
   }
 
   /**
@@ -91,7 +82,7 @@ class DBHelper {
       if (error) {
         callback(error, null);
       } else {
-        let results = restaurants
+        let results = restaurants;
         if (cuisine != 'all') { // filter by cuisine
           results = results.filter(r => r.cuisine_type == cuisine);
         }
@@ -126,6 +117,7 @@ class DBHelper {
    */
   static fetchCuisines(callback) {
     // Fetch all restaurants
+
     DBHelper.fetchRestaurants((error, restaurants) => {
       if (error) {
         callback(error, null);
@@ -150,11 +142,11 @@ class DBHelper {
    * Restaurant image URL.
    */
   static imageUrlForRestaurant(restaurant) {
-    return (`/img_sized/${restaurant.photograph}`);
+    return (`/img_sized/${restaurant.photograph}-300_small.jpg`);
   }
 
   static imageUrlForRestaurantSrc(restaurant) {
-    return (`/img_sized/${restaurant.photographMd}, /img_sized/${restaurant.photographLg}`);
+    return (`/img_sized/${restaurant.photograph}-500_medium.jpg, /img_sized/${restaurant.photograph}-1600_large.jpg`);
   }
 
   /**

@@ -1,0 +1,20 @@
+{
+  "short_name": "Restaurant",
+  "name": "MWS Restaurant App",
+  "icons": [
+    {
+      "src": "img/mws.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "img/mws.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#fdfdfd",
+  "display": "standalone",
+  "theme_color": "#3397db"
+}

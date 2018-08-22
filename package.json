@@ -1,0 +1,27 @@
+{
+  "name": "mws-restaurant-app",
+  "version": "1.0.0",
+  "description": "MWS Restaurant App for the Udacity MWS Nanodegree",
+  "main": "js/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sgluzins/mws-restaurant-stage-1.git"
+  },
+  "keywords": [
+    "restaurant",
+    "udacity",
+    "mws"
+  ],
+  "author": "Sasha Gluzinski",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sgluzins/mws-restaurant-stage-1/issues"
+  },
+  "homepage": "https://github.com/sgluzins/mws-restaurant-stage-1#readme",
+  "dependencies": {
+    "idb": "^2.1.3"
+  }
+}

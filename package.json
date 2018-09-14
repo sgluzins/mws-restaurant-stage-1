@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/sgluzins/mws-restaurant-stage-1#readme",
   "dependencies": {
+    "font-awesome": "^4.7.0",
     "idb": "^2.1.3"
   }
 }

@@ -67,6 +67,13 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
   const name = document.getElementById('restaurant-name');
   name.innerHTML = restaurant.name;
 
+  const faveButton = document.getElementById('fave-button');
+  const fave = document.getElementById('heart-icon');
+  faveButton.onclick = function(){
+    fave.className === 'far fa-heart' ? fave.className = 'fas fa-heart' : fave.className = 'far fa-heart';
+  };
+  fave.className = 'far fa-heart';
+
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
@@ -85,7 +92,10 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
     fillRestaurantHoursHTML();
   }
   // fill reviews
-  fillReviewsHTML();
+  DBHelper.fetchReviewById(restaurant.id, fillReviewsHTML);
+
+  // add review form
+  addReviewHTML();
 }
 
 /**
@@ -111,7 +121,7 @@ fillRestaurantHoursHTML = (operatingHours = self.restaurant.operating_hours) => 
 /**
  * Create all reviews HTML and add them to the webpage.
  */
-fillReviewsHTML = (reviews = self.restaurant.reviews) => {
+fillReviewsHTML = (error, reviews) => {
   const container = document.getElementById('reviews-container');
   const title = document.createElement('h2');
   title.innerHTML = 'Reviews';
@@ -140,7 +150,7 @@ createReviewHTML = (review) => {
   li.appendChild(name);
 
   const date = document.createElement('p');
-  date.innerHTML = review.date;
+  date.innerHTML = new Date(review.updatedAt).toDateString();
   li.appendChild(date);
 
   const rating = document.createElement('p');
@@ -152,6 +162,61 @@ createReviewHTML = (review) => {
   li.appendChild(comments);
 
   return li;
+}
+
+addReviewHTML = () => {
+  const container = document.getElementById('reviews-form');
+  const title = document.createElement('h2');
+  title.innerHTML = 'Add Review';
+  container.appendChild(title);
+
+  const reviewForm = document.createElement('form');
+  reviewForm.className = 'restaurant-reviews-form';
+
+  const ratingLabel = document.createElement('label');
+  ratingLabel.innerHTML = 'RATING';
+  const selectRating = document.createElement('select');
+  const ratingOne = document.createElement('option');
+  ratingOne.setAttribute = ('value', 'one');
+  ratingOne.innerHTML = 'one';
+  const ratingTwo = document.createElement('option');
+  ratingTwo.setAttribute = ('value', 'two');
+  ratingTwo.innerHTML = 'two';
+  const ratingThree = document.createElement('option');
+  ratingThree.setAttribute = ('value', 'three');
+  ratingThree.innerHTML = 'three';
+  const ratingFour = document.createElement('option');
+  ratingFour.setAttribute = ('value', 'four');
+  ratingFour.innerHTML = 'four';
+  const ratingFive = document.createElement('option');
+  ratingFive.setAttribute = ('value', 'five');
+  ratingFive.innerHTML = 'five';
+  selectRating.appendChild(ratingOne);
+  selectRating.appendChild(ratingTwo);
+  selectRating.appendChild(ratingThree);
+  selectRating.appendChild(ratingFour);
+  selectRating.appendChild(ratingFive);
+  reviewForm.appendChild(ratingLabel);
+  reviewForm.appendChild(selectRating);
+
+  const nameLabel = document.createElement('label');
+  nameLabel.innerHTML = 'NAME';
+  const name = document.createElement('input');
+  reviewForm.appendChild(nameLabel);
+  reviewForm.appendChild(name);
+
+  const commentsLabel = document.createElement('label');
+  commentsLabel.innerHTML = 'COMMENTS';
+  const comments = document.createElement('textarea');
+  comments.className = 'review-comments';
+  reviewForm.appendChild(commentsLabel);
+  reviewForm.appendChild(comments);
+
+  const submitButton = document.createElement('button');
+  submitButton.innerHTML = 'SUBMIT';
+  reviewForm.appendChild(submitButton);
+
+  container.appendChild(reviewForm);
 }
 
 /**

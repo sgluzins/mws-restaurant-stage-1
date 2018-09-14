@@ -165,11 +165,28 @@ createRestaurantHTML = (restaurant) => {
   address.innerHTML = restaurant.address;
   li.append(address);
 
+  const bottomDiv = document.createElement('div');
+  bottomDiv.className = 'bottomDiv';
+
   const more = document.createElement('a');
   more.setAttribute('aria-label', `View ${restaurant.name} details`);
   more.innerHTML = 'View Details';
   more.href = DBHelper.urlForRestaurant(restaurant);
-  li.append(more)
+  bottomDiv.append(more);
+
+  const faveButton = document.createElement('button');
+  const fave = document.createElement('i');
+  faveButton.className = 'faveButton';
+  faveButton.setAttribute('role', 'button');
+  faveButton.setAttribute('aria-label', 'restaurant is favorite');
+  faveButton.onclick = function(){
+    fave.className === 'far fa-heart' ? fave.className = 'fas fa-heart' : fave.className = 'far fa-heart';
+  };
+  fave.className = 'far fa-heart';
+  faveButton.append(fave);
+  bottomDiv.append(faveButton);
+
+  li.append(bottomDiv);
 
   return li
 }

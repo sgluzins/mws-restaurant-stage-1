@@ -12,6 +12,11 @@ class DBHelper {
     return `http://localhost:${port}/restaurants`;
   }
 
+  static get REVIEWS_DATABASE_URL() {
+    const port = 1337
+    return `http://localhost:${port}/reviews`;
+  }
+
   /**
    * Fetch all restaurants.
    */
@@ -161,6 +166,28 @@ class DBHelper {
       })
       marker.addTo(newMap);
     return marker;
+  }
+
+  /**
+   * Fetch all reviews.
+   */
+  static fetchReviews(callback) {
+    fetch(DBHelper.REVIEWS_DATABASE_URL).then(response => {
+      response.json().then(reviews => {
+        callback(null, reviews)})
+    }).catch(e => callback(`Request failed: ${e}`, null));
+  }
+
+  /**
+   * Fetch a review by its ID.
+   */
+  static fetchReviewById(id, callback) {
+    // fetch all reviews with proper error handling.
+    fetch(`${DBHelper.REVIEWS_DATABASE_URL}?restaurant_id=${id}`).then(response => {
+      response.json().then(reviews => {
+        callback(null, reviews)})
+    }).catch(e => callback('Review does not exist in the database', null));
+
   }
 
 }

@@ -176,6 +176,7 @@ addReviewHTML = () => {
   const ratingLabel = document.createElement('label');
   ratingLabel.innerHTML = 'RATING';
   const selectRating = document.createElement('select');
+  selectRating.setAttribute('aria-label', 'restaurant rating');
   const ratingOne = document.createElement('option');
   ratingOne.setAttribute = ('value', 'one');
   ratingOne.innerHTML = 'one';
@@ -202,6 +203,7 @@ addReviewHTML = () => {
   const nameLabel = document.createElement('label');
   nameLabel.innerHTML = 'NAME';
   const name = document.createElement('input');
+  name.setAttribute('aria-label', 'name');
   reviewForm.appendChild(nameLabel);
   reviewForm.appendChild(name);
 
@@ -209,8 +211,10 @@ addReviewHTML = () => {
   commentsLabel.innerHTML = 'COMMENTS';
   const comments = document.createElement('textarea');
   comments.className = 'review-comments';
+  comments.setAttribute('aria-label', 'comments');
   reviewForm.appendChild(commentsLabel);
   reviewForm.appendChild(comments);
+
 
   const submitButton = document.createElement('button');
   submitButton.innerHTML = 'SUBMIT';

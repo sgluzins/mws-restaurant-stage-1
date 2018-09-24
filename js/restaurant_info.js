@@ -69,11 +69,13 @@ fillRestaurantHTML = (restaurant = self.restaurant) => {
 
   const faveButton = document.getElementById('fave-button');
   const fave = document.getElementById('heart-icon');
-  faveButton.onclick = function(){
-    fave.className === 'far fa-heart' ? fave.className = 'fas fa-heart' : fave.className = 'far fa-heart';
-  };
-  fave.className = 'far fa-heart';
 
+  restaurant.is_favorite === 'true' ? fave.className = 'fas fa-heart' : fave.className = 'far fa-heart';
+
+  faveButton.onclick = function(){
+    fave.className === 'fas fa-heart' ? DBHelper.unfavoriteRestaurant(restaurant.id) : DBHelper.favoriteRestaurant(restaurant.id);
+    fave.className === 'fas fa-heart' ? fave.className = 'far fa-heart' : fave.className = 'fas fa-heart';
+  };
   const address = document.getElementById('restaurant-address');
   address.innerHTML = restaurant.address;
 
@@ -177,21 +179,22 @@ addReviewHTML = () => {
   ratingLabel.innerHTML = 'RATING';
   const selectRating = document.createElement('select');
   selectRating.setAttribute('aria-label', 'restaurant rating');
+  selectRating.id = 'review-rating';
   const ratingOne = document.createElement('option');
-  ratingOne.setAttribute = ('value', 'one');
-  ratingOne.innerHTML = 'one';
+  ratingOne.setAttribute = ('value', '1');
+  ratingOne.innerHTML = '1';
   const ratingTwo = document.createElement('option');
-  ratingTwo.setAttribute = ('value', 'two');
-  ratingTwo.innerHTML = 'two';
+  ratingTwo.setAttribute = ('value', '2');
+  ratingTwo.innerHTML = '2';
   const ratingThree = document.createElement('option');
-  ratingThree.setAttribute = ('value', 'three');
-  ratingThree.innerHTML = 'three';
+  ratingThree.setAttribute = ('value', '3');
+  ratingThree.innerHTML = '3';
   const ratingFour = document.createElement('option');
-  ratingFour.setAttribute = ('value', 'four');
-  ratingFour.innerHTML = 'four';
+  ratingFour.setAttribute = ('value', '4');
+  ratingFour.innerHTML = '4';
   const ratingFive = document.createElement('option');
-  ratingFive.setAttribute = ('value', 'five');
-  ratingFive.innerHTML = 'five';
+  ratingFive.setAttribute = ('value', '5');
+  ratingFive.innerHTML = '5';
   selectRating.appendChild(ratingOne);
   selectRating.appendChild(ratingTwo);
   selectRating.appendChild(ratingThree);
@@ -204,23 +207,29 @@ addReviewHTML = () => {
   nameLabel.innerHTML = 'NAME';
   const name = document.createElement('input');
   name.setAttribute('aria-label', 'name');
+  name.id = 'review-name';
   reviewForm.appendChild(nameLabel);
   reviewForm.appendChild(name);
 
   const commentsLabel = document.createElement('label');
   commentsLabel.innerHTML = 'COMMENTS';
   const comments = document.createElement('textarea');
-  comments.className = 'review-comments';
+  comments.id = 'review-comments';
   comments.setAttribute('aria-label', 'comments');
   reviewForm.appendChild(commentsLabel);
   reviewForm.appendChild(comments);
 
-
+  const submitForm = document.createElement('form');
+  submitForm.action = "/";
   const submitButton = document.createElement('button');
+  submitButton.type = 'button';
   submitButton.innerHTML = 'SUBMIT';
-  reviewForm.appendChild(submitButton);
+  submitButton.onclick = DBHelper.addReview;
+  submitForm.appendChild(submitButton);
+  reviewForm.appendChild(submitForm);
 
   container.appendChild(reviewForm);
+
 }
 
 /**

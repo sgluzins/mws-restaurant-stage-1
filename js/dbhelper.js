@@ -169,6 +169,24 @@ class DBHelper {
   }
 
   /**
+   * Favorite a restaurant.
+   */
+  static favoriteRestaurant(id) {
+    fetch(`${DBHelper.DATABASE_URL}/${id}/?is_favorite=true`, {method: 'PUT'}).then(response => {
+      response;
+    }).catch(e => `Request failed: ${e}`);
+  }
+
+  /**
+   * Unfavorite a restaurant.
+   */
+  static unfavoriteRestaurant(id) {
+    fetch(`${DBHelper.DATABASE_URL}/${id}/?is_favorite=false`, {method: 'PUT'}).then(response => {
+      response;
+    }).catch(e => `Request failed: ${e}`);
+  }
+
+  /**
    * Fetch all reviews.
    */
   static fetchReviews(callback) {
@@ -187,7 +205,31 @@ class DBHelper {
       response.json().then(reviews => {
         callback(null, reviews)})
     }).catch(e => callback('Review does not exist in the database', null));
+  }
 
+  /**
+   * Add review to DB.
+   */
+  static addReview() {
+    const storeJSON = [];
+    const requestJSON = {
+      restaurant_id: getParameterByName('id'),
+      name: document.getElementById('review-name').value,
+      rating: document.getElementById('review-rating').value,
+      createdAt: Date.now(),
+      comments: document.getElementById('review-comments').value 
+    };
+  
+    if(navigator.onLine){
+      fetch(DBHelper.REVIEWS_DATABASE_URL, {
+        method: 'POST', 
+        body: JSON.stringify(requestJSON)
+      }).then(function(res){
+        window.location.reload();
+      })
+    } else {
+      storeJSON.push(requestJSON);
+    }
   }
 
 }

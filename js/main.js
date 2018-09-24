@@ -144,6 +144,7 @@ fillRestaurantsHTML = (restaurants = self.restaurants) => {
  */
 createRestaurantHTML = (restaurant) => {
   const li = document.createElement('li');
+  const id = restaurant.id;
 
   const image = document.createElement('img');
   image.setAttribute('alt', `view of ${restaurant.name}`);
@@ -177,18 +178,25 @@ createRestaurantHTML = (restaurant) => {
   const faveButton = document.createElement('button');
   const fave = document.createElement('i');
   faveButton.className = 'faveButton';
+  faveButton.id = 'fave';
   faveButton.setAttribute('role', 'button');
   faveButton.setAttribute('aria-label', 'restaurant is favorite');
+  restaurant.is_favorite === 'true' ? fave.className = 'fas fa-heart' : fave.className = 'far fa-heart';
+
   faveButton.onclick = function(){
-    fave.className === 'far fa-heart' ? fave.className = 'fas fa-heart' : fave.className = 'far fa-heart';
+    fave.className === 'fas fa-heart' ? DBHelper.unfavoriteRestaurant(id) : DBHelper.favoriteRestaurant(id);
+    fave.className === 'fas fa-heart' ? fave.className = 'far fa-heart' : fave.className = 'fas fa-heart';
   };
-  fave.className = 'far fa-heart';
   faveButton.append(fave);
   bottomDiv.append(faveButton);
-
   li.append(bottomDiv);
 
   return li
+}
+
+handleClick = (id, state) => {
+  const restaurant = self.restaurants.filter(restaurant => restaurant.id === id)[0];
+  restaurant['fave'] = state;
 }
 
 /**

@@ -364,7 +364,7 @@ select:focus {
   margin-bottom: 20px;
   font-size: 14px;
 }
-.review-comments {
+#review-comments {
   height: 150px;
 }
 .restaurant-reviews-form button {

@@ -43,6 +43,8 @@ const URLS = [
 
 const dbPromise = idb.open('mws-restaurants', 1, function(upgradeDb){ 
     var keyValStore = upgradeDb.createObjectStore('restaurants', {keyPath: 'id'});
+    var faveValStore = upgradeDb.createObjectStore('isFavorite', {keyPath: 'id'});
+    var reviewStore = upgradeDb.createObjectStore('reviews', {keyPath: 'id'});
 });
 
 self.addEventListener('install', event => {
@@ -57,26 +59,65 @@ self.addEventListener('fetch', event => {
     const endpoint = new URL(event.request.url);
 
     if(endpoint.port === '1337') {
-        if(navigator.onLine){
-            fetch(endpoint).then((response) => {
-                response.json().then(restaurants => {
-                    dbPromise.then(function(db) {
-                        var store = db.transaction('restaurants', 'readwrite').objectStore('restaurants');
-                        store.put({
-                            id: 0,
-                            data: restaurants
-                        });
-                        restaurants.forEach(
-                            restaurant => {
-                            store.put({
+        if(navigator.onLine) {
+            if(endpoint.toString().includes('?is_favorite')){
+                const isFave = endpoint.toString().split('=');
+                fetch(endpoint).then((response) => {
+                    response.json().then(restaurant => {
+                        dbPromise.then(function(db) {
+                            var faveStore = db.transaction('restaurants', 'readwrite').objectStore('restaurants');
+                            restaurant.is_favorite = isFave[1];
+                            faveStore.put({
                                 id: restaurant.id,
                                 data: restaurant
                             });
-                        });
-                        return store.complete;
-                    });
+                            return faveStore.complete;
+                        })
+                    })
                 })
-            });
+            } 
+            else if (endpoint.toString().includes('reviews')) {
+                fetch(endpoint).then((response) => {
+                    response.json().then(reviews => {
+                        dbPromise.then(function(db) {
+                            var reviewStore = db.transaction('reviews', 'readwrite').objectStore('reviews');
+                            reviewStore.put({
+                                id: 0,
+                                data: reviews
+                            });
+                            reviews.forEach(
+                                reviews => {
+                                    reviewStore.put({
+                                    id: reviews.id,
+                                    data: reviews
+                                });
+                            });
+                            return reviewStore.complete;
+                        });
+                    })
+                });
+            } 
+            else {
+                fetch(endpoint).then((response) => {
+                    response.json().then(restaurants => {
+                        dbPromise.then(function(db) {
+                            var store = db.transaction('restaurants', 'readwrite').objectStore('restaurants');
+                            store.put({
+                                id: 0,
+                                data: restaurants
+                            });
+                            restaurants.forEach(
+                                restaurant => {
+                                store.put({
+                                    id: restaurant.id,
+                                    data: restaurant
+                                });
+                            });
+                            return store.complete;
+                        });
+                    })
+                });
+            }
         } else {
             const splitURL = endpoint.pathname.split('/');
             const urlLength = splitURL.length - 1;
